@@ -15,7 +15,7 @@
  *
  */
 
-package com.eightkdata.phoebe.client.api;
+package com.eightkdata.phoebe.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;

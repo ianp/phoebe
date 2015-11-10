@@ -21,14 +21,7 @@
  * maintenance, support, updates, enhancements, or modifications.
  */
 
-package com.eightkdata.phoebe.client.api;
-
-import com.eightkdata.phoebe.common.messages.ReadyForQuery;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import static com.eightkdata.phoebe.common.PostgresEncoding.UTF8;
-import static java.util.concurrent.TimeUnit.SECONDS;
+package com.eightkdata.phoebe.client;
 
 /**
  * Unit tests for the various authentication methods.

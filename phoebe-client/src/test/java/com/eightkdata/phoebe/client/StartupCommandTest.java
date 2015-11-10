@@ -21,7 +21,7 @@
  * maintenance, support, updates, enhancements, or modifications.
  */
 
-package com.eightkdata.phoebe.client.api;
+package com.eightkdata.phoebe.client;
 
 import org.junit.Test;
 

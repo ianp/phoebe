@@ -16,7 +16,7 @@
  */
 
 
-package com.eightkdata.phoebe.client.api;
+package com.eightkdata.phoebe.client;
 
 
 import com.eightkdata.phoebe.client.StartupFlowHandler;

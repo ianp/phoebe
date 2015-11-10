@@ -16,10 +16,8 @@
  */
 
 
-package com.eightkdata.phoebe.client.api;
+package com.eightkdata.phoebe.client;
 
-import com.eightkdata.phoebe.client.FlowHandler;
-import com.eightkdata.phoebe.client.StartupFlowHandler;
 import com.eightkdata.phoebe.client.decoder.BeMessageDecoder;
 import com.eightkdata.phoebe.client.decoder.BeMessageProcessor;
 import com.eightkdata.phoebe.client.encoder.FeMessageEncoder;

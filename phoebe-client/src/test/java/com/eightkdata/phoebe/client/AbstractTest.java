@@ -15,7 +15,7 @@
  *
  */
 
-package com.eightkdata.phoebe.client.api;
+package com.eightkdata.phoebe.client;
 
 import net.jodah.concurrentunit.Waiter;
 import org.junit.Before;
