@@ -44,6 +44,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -59,6 +61,7 @@ public class RxPostgresClient implements PostgresClient {
     public static final long DEFAULT_TIMEOUT = 10;
     public static final TimeUnit DEFAULT_TIMEOUT_UNIT = TimeUnit.SECONDS;
 
+    private final ExecutorService executorService;
     private final EventLoopGroup eventLoopGroup;
 
     private final Observable<Try<PostgresConnection,FailedConnectionException>> connections;
@@ -68,11 +71,11 @@ public class RxPostgresClient implements PostgresClient {
             final boolean onlyOneHost, final boolean errorsAsFailedConnections,
             @Nonnegative final long timeout, @Nonnull final TimeUnit unit
     ) {
-        // Init event loop and make sure daemon connections will be closed properly
-        eventLoopGroup = new NioEventLoopGroup(
-                0,                                              // use default number of threads (queries system CPUs)
-                new DefaultThreadFactory("netty", true)         // Use daemon threads, JVM will always exit
-        );
+        // use daemon threads, so the JVM will be able to exit
+        executorService = Executors.newCachedThreadPool(new DefaultThreadFactory("netty", true));
+
+        // use default number of threads, see io.netty.channel.MultithreadEventLoopGroup
+        eventLoopGroup = new NioEventLoopGroup(0, executorService);
 
         // Make sure proper cleanup is performed even if the user does not explicitly call .close()
         Runtime.getRuntime().addShutdownHook(new Thread() {
