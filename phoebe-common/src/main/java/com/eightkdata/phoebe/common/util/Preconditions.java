@@ -18,6 +18,8 @@
 
 package com.eightkdata.phoebe.common.util;
 
+import com.google.common.base.CharMatcher;
+
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
@@ -37,9 +39,27 @@ public class Preconditions {
         return argument;
     }
 
-    public static int checkTcpPort(@Nonnegative int port) {
-        checkState(port > 0 && port <= (1 << 16) - 1, "port");
+    public static String checkHostname(String host) {
+        if (host == null || host.isEmpty() || CharMatcher.WHITESPACE.matchesAllOf(host)) {
+            throw new IllegalArgumentException("hostname cannot be null, empty, or all whitespace: " + host);
+        }
+        return host;
+    }
 
+    public static int checkPortNumber(int port) {
+        if (port < 0 || port > 65535) {
+            throw new IllegalArgumentException("port must be in the range 0..65535: " + port);
+        }
         return port;
     }
+
+    public static int checkNonEphemeralPortNumber(int port) {
+        if (port < 1 || port > 65535) {
+            throw new IllegalArgumentException("non-ephemeral port must be in the range 1..65535: " + port);
+        }
+        return port;
+    }
+
+    private Preconditions() {}
+
 }

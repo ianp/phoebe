@@ -21,9 +21,7 @@ package com.eightkdata.phoebe.client;
  * Unit tests for {@link PGSession}.
  *
  * All of the tests here assume trust based authentication, so make sure
- * that the DB instance you're running against is set up for that. See
- * {@link AuthenticationTest} for test that excercise the various
- * authentication protocols.
+ * that the DB instance you're running against is set up for that.
  */
 public class PGSessionTest extends AbstractTest {
 

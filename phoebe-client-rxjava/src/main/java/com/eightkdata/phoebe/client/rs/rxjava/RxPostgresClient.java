@@ -104,8 +104,7 @@ public class RxPostgresClient implements PostgresClient {
                         if(subs.isUnsubscribed() || null != error.get())
                             return;
 
-                        Schedulers
-                                .newThread()
+                        Schedulers.from(executorService)
                                 .createWorker()
                                 .schedule(new Action0() {
                                     @Override
@@ -116,16 +115,18 @@ public class RxPostgresClient implements PostgresClient {
                                                         eventLoopGroup, host.getKey(), host.getValue(), timeout, unit
                                                 );
                                                 if(onlyOneHost) {
-                                                    if(someConnected.compareAndSet(false, true))
+                                                    if(someConnected.compareAndSet(false, true)) {
                                                         subs.onNext(
-                                                            Try.<PostgresConnection,FailedConnectionException>success(c)
+                                                                Try.<PostgresConnection, FailedConnectionException>success(c)
                                                         );
-                                                    else
+                                                    } else {
                                                         c.close();   // We lost the race to another connection!
-                                                } else
+                                                    }
+                                                } else {
                                                     subs.onNext(
-                                                        Try.<PostgresConnection,FailedConnectionException>success(c)
-                                                );
+                                                            Try.<PostgresConnection, FailedConnectionException>success(c)
+                                                    );
+                                                }
                                                 connections.add(c);
                                             } catch (FailedConnectionException e) {
                                                 if(errorsAsFailedConnections) {

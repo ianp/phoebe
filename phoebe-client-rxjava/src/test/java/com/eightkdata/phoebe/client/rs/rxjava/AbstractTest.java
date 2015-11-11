@@ -21,29 +21,34 @@
  * maintenance, support, updates, enhancements, or modifications.
  */
 
-package com.eightkdata.phoebe.client;
+package com.eightkdata.phoebe.client.rs.rxjava;
 
-/**
- * Unit tests for the various authentication methods.
- *
- * You will need to configure your PostgtreSQL instance appropriately in order to run these.
- */
-public class AuthenticationTest extends AbstractTest {
+import net.jodah.concurrentunit.Waiter;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
-//    @Test
-//    @Category({ExternalDatabase.class})
-//    public void testMD5Password() throws Throwable {
-//        String username = props.getProperty("db.md5.user");
-//        String password = props.getProperty("db.md5.pass");
-//        String database = props.getProperty("db.md5.name");
-//        session.start(new StartupCommand(username, password, database, UTF8) {
-//            @Override
-//            public void onCompleted(ReadyForQuery message) {
-//                waiter.assertTrue(message.getStatusIndicator() == ReadyForQuery.StatusIndicator.IDLE);
-//                waiter.resume();
-//            }
-//        });
-//        waiter.await(5, SECONDS);
-//    }
+import java.util.Properties;
+
+public abstract class AbstractTest {
+
+    /**
+     * Add a file named {@code local.properties} to override the defaults for your database connection.
+     */
+    static Properties props;
+
+    Waiter waiter;
+
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        props = new Properties();
+        props.load(AbstractTest.class.getResourceAsStream("/default.properties"));
+        props.load(AbstractTest.class.getResourceAsStream("/local.properties"));
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        waiter = new Waiter();
+    }
 
 }
