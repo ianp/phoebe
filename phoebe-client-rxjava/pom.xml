@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.8kdata.phoebe</groupId>
-    <artifactId>phoebe-client-rs-rxjava</artifactId>
+    <artifactId>phoebe-client-rxjava</artifactId>
     <name>Phoebe Client - RxJava</name>
 
     <dependencies>
