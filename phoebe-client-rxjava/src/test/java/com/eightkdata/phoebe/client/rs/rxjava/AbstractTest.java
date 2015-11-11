@@ -43,7 +43,9 @@ public abstract class AbstractTest {
     public static void setUpClass() throws Exception {
         props = new Properties();
         props.load(AbstractTest.class.getResourceAsStream("/default.properties"));
-        props.load(AbstractTest.class.getResourceAsStream("/local.properties"));
+        if (AbstractTest.class.getResource("/local.properties") != null) {
+            props.load(AbstractTest.class.getResourceAsStream("/local.properties"));
+        }
     }
 
     @Before
