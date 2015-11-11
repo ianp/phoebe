@@ -85,10 +85,8 @@ public enum MessageType {
 
     private static final byte NOT_APPLICABLE = -1;
 
-    private final byte type;
-    private final boolean hasType;
-    private final int subType;
-    private final boolean hasSubType;
+    private final Byte type;
+    private final Integer subtype;
     private final int fixedMessageLength;
     private final int fixedTotalMessageLength;
     private final boolean isFixedLengthMessage;
@@ -98,18 +96,15 @@ public enum MessageType {
             value = "BX_UNBOXED_AND_COERCED_FOR_TERNARY_OPERATOR",
             justification = "this.type initialization should not be performing any implicit unboxing"
     )
-    MessageType(@Nullable Character type, @Nullable Integer length, @Nullable Integer subType) {
+    MessageType(@Nullable Character type, @Nullable Integer length, @Nullable Integer subtype) {
         Preconditions.checkArgument(null == length || length > 0, "Illegal message decodingLength");
 
-        this.hasType = (null != type);
-        this.type = this.hasType ? (byte) type.charValue() : NOT_APPLICABLE;
-        this.hasSubType = (null != subType);
-        this.subType = this.hasSubType ? subType : NOT_APPLICABLE;
-
+        this.type = type != null ? (byte) type.charValue() : null;
+        this.subtype = subtype;
         this.isFixedLengthMessage = (null != length);
         this.fixedMessageLength = this.isFixedLengthMessage ? length : NOT_APPLICABLE;
-        this.fixedTotalMessageLength = this.fixedMessageLength + (this.hasType ? ByteSize.BYTE : 0);
-        this.headerLength = computeHeaderLength(type, subType);
+        this.fixedTotalMessageLength = this.fixedMessageLength + (type != null ? ByteSize.BYTE : 0);
+        this.headerLength = computeHeaderLength(type, subtype);
     }
 
     MessageType(@Nullable Character type, @Nullable Integer length, int subtype1, int subtype2) {
@@ -133,7 +128,7 @@ public enum MessageType {
      * @return true if the message has a type identifier, false otherwise
      */
     public boolean hasType() {
-        return hasType;
+        return type != null;
     }
 
     /**
@@ -152,14 +147,14 @@ public enum MessageType {
      * @return true if the message has a subtype identifier, false otherwise
      */
     public boolean hasSubType() {
-        return hasSubType;
+        return subtype != null;
     }
 
     /**
      * Some messages (e.g. authentication) can have different subtypes, this field is used to distinguish between them.
      */
-    public int getSubtype() {
-        return subType;
+    public Integer getSubtype() {
+        return subtype;
     }
 
     /**

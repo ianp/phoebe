@@ -82,10 +82,10 @@ public enum BeMessageType {
             assert beMessageType.febeMessageType.hasType() : "Backend messages must have a type byte";
 
             if (beMessageType.getId() == MessageType.AUTHENTICATION_TYPE) {
-                assert beMessageType.getSubtype() != null : "Auth be messages must have a subtype";
+                assert beMessageType.getSubtype() != null : "Auth be messages must have a subtype: " + beMessageType;
                 authMessageTypes.put(beMessageType.getSubtype(), beMessageType);
             } else {
-                assert beMessageType.getSubtype() == null : "Non auth be messages do not have subtype";
+                assert beMessageType.getSubtype() == null : "Non auth be messages do not have subtype: " + beMessageType;
                 nonAuthMessageTypes.put(beMessageType.getId(), beMessageType);
             }
 
